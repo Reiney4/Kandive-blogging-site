@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+// Import the necessary components from the react-router-dom package and other custom components
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import Single from "./Pages/Single";
+import Write from "./Pages/Write";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
+import "./style.scss";
 
+// Create a Layout component that defines the structure of the web page
+const Layout = () => {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
+
+// Define the application routes and components using the createBrowserRouter function
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    // Remember that Home, Single post and Write are the pages that will have a Navbar and a Footer
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/post/:id",
+        element: <Single />,
+      },
+      {
+        path: "/write",
+        element: <Write />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
+
+// Define the App function that returns the RouterProvider component that provides the routing context to the entire app
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="container">
+        <RouterProvider router={router} />
+      </div>
     </div>
   );
 }
 
+// Export the App component as the default export
 export default App;
